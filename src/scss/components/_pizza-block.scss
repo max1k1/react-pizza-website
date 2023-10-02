@@ -1,7 +1,7 @@
 @import '../variables';
 
 .pizza-block {
-  width: 280px;
+  width: 302px;
   text-align: center;
   margin-bottom: 65px;
 
@@ -27,11 +27,9 @@
     border-radius: 10px;
     flex-direction: column;
     padding: 6px;
-
     ul {
       display: flex;
       flex: 1;
-
       &:first-of-type {
         margin-bottom: 6px;
       }
