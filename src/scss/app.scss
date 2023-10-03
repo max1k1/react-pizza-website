@@ -1,6 +1,5 @@
 @import './variables';
 @import './libs/normalize';
-
 @import './components/all';
 
 body {
@@ -14,7 +13,7 @@ body {
   margin: 50px auto;
   border-radius: 10px;
   max-width: 1400px;
-
+  
   @media (max-width: 645px) {
     width: calc(100vw - 30px);
     margin-top: 15px;

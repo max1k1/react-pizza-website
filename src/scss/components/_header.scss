@@ -8,6 +8,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
+    @media (max-width: 1080px) {
+      flex-direction: column;
+
+      .header__search {
+        padding: 30px;
+       }
+
+    }
 
     @media (max-width: 645px) {
       flex-direction: column;
@@ -15,6 +24,13 @@
       .header__cart {
         margin-top: 20px;
       }
+      .header__search {
+        .search{
+          input{
+            width: 250px;
+          }
+        }
+       }
     }
   }
 
