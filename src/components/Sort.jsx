@@ -1,15 +1,21 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setSortOption } from '../redux/slices/filterSlice';
 
-const Sort = ({ sortOption, setSortOption, sortOptionList }) => {
+const Sort = ({ sortOption, sortOptionList }) => {
   const [popupMode, setPopupMode] = useState(false);
-  const onClickListItem = (option) => {
-    setSortOption(option);
+  const dispatch = useDispatch();
+
+  const onClickListItem = (option, optionId) => {
+    dispatch(setSortOption({ option, optionId }));
     setPopupMode(false);
   };
 
-  
   const popupListElement = sortOptionList.map((obj, i) => (
-    <li key={i} onClick={() => onClickListItem(obj)} className={obj.option === sortOption.option ? 'active' : ''}>
+    <li
+      key={i}
+      onClick={() => onClickListItem(obj, i)}
+      className={obj.option === sortOption.option ? 'active' : ''}>
       {obj.name}
     </li>
   ));

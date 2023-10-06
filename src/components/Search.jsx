@@ -1,10 +1,32 @@
 import React from 'react';
+import debounce from 'lodash.debounce';
+import { useDispatch } from 'react-redux';
+import { setSearchValue } from '../redux/slices/filterSlice';
 
-const Search = ({ searchValue, setSearchValue }) => {
+const Search = () => {
+  const dispatch = useDispatch();
+  const [inputValue, setInputValue] = React.useState('');
+  const inputRef = React.useRef();
+  const onClickClear = (event) => {
+    setInputValue('');
+    changeSearchValue(event.target.value);
+    inputRef.current.focus();
+  };
+  const changeSearchValue = React.useMemo(
+    () =>
+      debounce((str) => {
+        dispatch(setSearchValue(str));
+      }, 250),
+    [dispatch],
+  );
+  const onChangeInput = (event) => {
+    setInputValue(event.target.value);
+    changeSearchValue(event.target.value);
+  };
   return (
-    <div className='search'>
+    <div className="search">
       <svg
-        className='search__icon'
+        className="search__icon"
         enableBackground="new 0 0 32 32"
         id="EditableLine"
         version="1.1"
@@ -37,12 +59,17 @@ const Search = ({ searchValue, setSearchValue }) => {
         />
       </svg>
       <input
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        ref={inputRef}
+        value={inputValue}
+        onChange={onChangeInput}
         placeholder="Pizza search..."
       />
-      {searchValue && (
-        <svg onClick={() => setSearchValue('')}className='search__clearIcon' viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      {inputValue && (
+        <svg
+          onClick={onClickClear}
+          className="search__clearIcon"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg">
           <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
         </svg>
       )}
