@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import PizzaBlock from './../components/PizzaBlock/PizzaBlock';
 import Sort from './../components/Sort';
@@ -15,7 +15,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isMounted = React.useRef(false);
-  const [isSearch, setIsSearch] = useState(false);
+  const [isSearch, setIsSearch] = React.useState(false);
   // const isSearch= React.useRef(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const items = useSelector((state) => state.pizzas.items);

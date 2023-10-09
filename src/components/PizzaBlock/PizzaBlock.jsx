@@ -1,30 +1,47 @@
 import { useState } from 'react';
-const PizzaBlock = ({ title, imageUrl, price, sizes, types }) => {
-  const [activeItemType, setActiveItemType] = useState(0);
+import { useDispatch, useSelector } from 'react-redux';
+import { addCartItem } from '../../redux/slices/cartSlice';
+const PizzaBlock = ({ id, title, imageUrl, price, sizes, types }) => {
+  const dispatch = useDispatch();
   const [activeItemSize, setActiveItemSize] = useState(0);
+  const [activeItemType, setActiveItemType] = useState(0);
+  const cartItemCount = useSelector(()=>{})
   const onActiveItemTypeChange = (index) => {
     setActiveItemType(index);
   };
   const onActiveItemSizeChange = (index) => {
     setActiveItemSize(index);
   };
+  const onClickAddItem = () => {
+    // setCartItemCount(cartItemCount+1)
+    const item = {
+      id,
+      title,
+      imageUrl,
+      price,
+      size: sizes[activeItemSize],
+      type: types[activeItemType],
+      count: cartItemCount,
+    };
+    dispatch(addCartItem(item));
+  };
   const typesElement = types.map((type, i) => (
     <li
-    key={i}
+      key={i}
       onClick={() => {
         onActiveItemTypeChange(i);
       }}
-      className={activeItemType === i ? 'active': ''}>
+      className={activeItemType === i ? 'active' : ''}>
       {type === 0 ? 'thin bottom' : 'thick bottom'}
     </li>
   ));
   const sizesElement = sizes.map((size, i) => (
     <li
-    key={i}
+      key={i}
       onClick={() => {
         onActiveItemSizeChange(i);
       }}
-      className={activeItemSize === i ? 'active': ''}>
+      className={activeItemSize === i ? 'active' : ''}>
       {size} cm.
     </li>
   ));
@@ -39,7 +56,7 @@ const PizzaBlock = ({ title, imageUrl, price, sizes, types }) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">from {price} $</div>
-        <div className="button button--outline button--add">
+        <div onClick={onClickAddItem} className="button button--outline button--add">
           <svg
             width="12"
             height="12"
