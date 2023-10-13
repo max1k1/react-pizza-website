@@ -5,7 +5,7 @@ import { addCartItem, removeAllCartItem, removeCartItem } from '../redux/slices/
 const CartItem = ({ id, title, type, size, price, count, imageUrl }) => {
   const dispatch = useDispatch();
   const onClickAddItem = () => {
-    dispatch(addCartItem({ id, title, type, size, price, count, imageUrl }));
+    dispatch(addCartItem({ id, type, size }));
   };
   const onClickRemoveItem = () => {
     dispatch(removeCartItem({ id, type, size }));

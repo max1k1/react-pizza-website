@@ -1,6 +1,7 @@
 import ReactPaginate from 'react-paginate';
 import { setCurrentPage } from '../redux/slices/filterSlice';
 import { useDispatch } from 'react-redux';
+
 const Pagination = ({ currentPage }) => {
   const dispatch = useDispatch();
   return (
@@ -9,7 +10,6 @@ const Pagination = ({ currentPage }) => {
         breakLabel="..."
         nextLabel=">"
         onPageChange={(event) => {
-          console.log(event.selected);
           dispatch(setCurrentPage(event.selected + 1));
         }}
         pageRangeDisplayed={6}

@@ -8,17 +8,16 @@ const initialState = {
 
 export const removeCartItem = createAsyncThunk(
   'cart/removeCartItem',
-  async ({ id, type, size }, { getState, dispatch }) => {
-    console.log('THUNKremoveCartItem');
-    const state = getState();
-    const sameItem = state.cart.cartItems.find(
-      (item) => !(item.id !== id && item.size === size && item.type === type),
+  ({ id, type, size }, { getState, dispatch }) => {
+    const { cart } = getState();
+    const sameItem = cart.cartItems.find(
+      (item) => item.id === id && item.size === size && item.type === type,
     );
     if (sameItem) {
       if (sameItem.count <= 1) {
         return dispatch(removeAllCartItem({ id, type, size }));
       } else {
-        return dispatch(setCartItemCount(id));
+        return dispatch(setCartItemCount({ id, type, size }));
       }
     }
   },
@@ -29,42 +28,46 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addCartItem: (state, action) => {
+      const sameItemsId = state.cartItems.find((item) => item.id === action.payload.id); // items which have the same id, but not the same parametrs will be counted on home page like the same pizzas count
       const sameItem = state.cartItems.find(
         (item) =>
           item.id === action.payload.id &&
           item.size === action.payload.size &&
           item.type === action.payload.type,
       );
+      if (sameItemsId) {
+        sameItemsId.sameItemsIdCount++;
+      }
       if (sameItem) {
         sameItem.count++;
       } else {
         state.cartItems.push({
           ...action.payload,
           count: 1,
+          sameItemsIdCount: 1,
         });
       }
     },
-    setCartItemCount: (state, action) => {
-      const sameItem = state.cartItems.find((item) => item.id === action.payload);
-      sameItem.count--;
-    },
-    setOrderAmount: (state) => {
+    setOrderInfo: (state) => {
       state.orderAmount = state.cartItems.reduce((sum, item) => {
         return sum + item.price * item.count;
       }, 0);
+      state.cartItemsCount = state.cartItems.reduce((sum, item) => {
+        return sum + item.count;
+      }, 0);
+    },
+    setCartItemCount: (state, action) => {
+      const { id, size, type } = action.payload;
+      const sameItem = state.cartItems.find(
+        (item) => item.id === id && item.type === type && item.size === size,
+      );
+      if (sameItem) sameItem.count--;
     },
     removeAllCartItem: (state, action) => {
-      console.log(state.cartItems);
-      const choosenPizzaForDelet = state.cartItems.filter(
-        (item) =>
-          !(
-            item.id === action.payload.id &&
-            item.type === action.payload.type &&
-            item.size === action.payload.size
-          ),
+      const { id, size, type } = action.payload;
+      state.cartItems = state.cartItems.filter(
+        (item) => !(item.id === id && item.type === type && item.size === size),
       );
-      state.cartItems = choosenPizzaForDelet;
-      console.log(choosenPizzaForDelet);
     },
     clearItems: (state) => {
       state.cartItems = [];
@@ -72,13 +75,11 @@ export const cartSlice = createSlice({
   },
 });
 
-export const {
-  addCartItem,
-  removeAllCartItem,
-  setCartItemCount,
-  addCartItemCount,
-  clearItems,
-  setOrderAmount,
-} = cartSlice.actions;
+export const selectCart = (state) => state.cart;
+export const selectCartItemById = (id) => (state) =>
+  state.cart.cartItems.find((item) => item.id === id);
+
+export const { addCartItem, removeAllCartItem, setCartItemCount, clearItems, setOrderInfo } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

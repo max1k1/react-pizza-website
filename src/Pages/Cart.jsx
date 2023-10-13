@@ -1,24 +1,22 @@
 import { Link } from 'react-router-dom';
 import React, { useDispatch, useSelector } from 'react-redux';
 import CartItem from '../components/CartItem';
-import { clearItems } from '../redux/slices/cartSlice';
+import { clearItems, selectCart } from '../redux/slices/cartSlice';
+import CartEmpty from '../components/CartEmpty';
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { cartItems, orderAmount } = useSelector((state) => state.cart);
-
-  const cartItemsCount = cartItems.reduce((sum, item) => {
-    return sum + item.count;
-  }, 0);
-
+  const { cartItems, cartItemsCount, orderAmount } = useSelector(selectCart);
   const onClickClear = () => {
     if (window.confirm('Delete your order?')) {
       dispatch(clearItems());
     }
   };
-
+  if (!orderAmount) {
+    return <CartEmpty />;
+  }
   const cartItemsElement = cartItems.map((item) => (
-    <CartItem key={item.id + item.size + item.type} {...item} />
+    <CartItem key={`${item.id}${item.size}${item.type}`} {...item} />
   ));
   return (
     <div className="container container--cart">

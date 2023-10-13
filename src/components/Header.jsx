@@ -3,17 +3,14 @@ import logoSvg from '../assets/img/pizza-logo.svg';
 import Search from './Search';
 import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
-import { setOrderAmount } from '../redux/slices/cartSlice';
+import { selectCart, setOrderInfo } from '../redux/slices/cartSlice';
 
 const Header = () => {
-  const { cartItems, orderAmount } = useSelector((state) => state.cart);
+  const { cartItems, cartItemsCount, orderAmount } = useSelector(selectCart);
   const dispatch = useDispatch();
-  const cartItemsCount = cartItems.reduce((sum, item) => {
-    return sum + item.count;
-  }, 0);
   React.useEffect(() => {
-    dispatch(setOrderAmount());
-  }, [dispatch, cartItems, orderAmount]);
+    dispatch(setOrderInfo());
+  }, [dispatch, cartItems]);
   return (
     <div className="header">
       <div className="container">
