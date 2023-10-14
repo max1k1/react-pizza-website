@@ -20,10 +20,8 @@ export const requestPizzas = createAsyncThunk(
 
 export const requestSinglePizza = createAsyncThunk(
   'pizzas/requestSinglePizza',
-  async ( id , thunkAPI) => {
-    const { data } = await axios.get(
-      'https://65195bba818c4e98ac604bdc.mockapi.io/items/'+id,
-    );
+  async (id, thunkAPI) => {
+    const { data } = await axios.get('https://65195bba818c4e98ac604bdc.mockapi.io/items/' + id);
     return data;
   },
 );
