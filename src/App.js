@@ -3,8 +3,8 @@ import Home from './Pages/Home';
 import NotFound from './Pages/NotFound';
 import { Route, Routes } from 'react-router-dom';
 import Cart from './Pages/Cart';
-import MainLayout from './components/Layouts/MainLayout';
 import SinglePizza from './Pages/SinglePizza';
+import MainLayout from './components/common/Layouts/MainLayout';
 
 const App = () => {
   return (

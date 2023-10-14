@@ -1,6 +1,5 @@
 import React from 'react';
 import Skeleton from '../components/PizzaBlock/Skeleton';
-import PizzaBlock from './../components/PizzaBlock/PizzaBlock';
 import Sort from './../components/Sort';
 import Categories from './../components/Categories';
 import Pagination from '../components/Pagination';
@@ -9,6 +8,7 @@ import { requestPizzas, selectPizzasData } from '../redux/slices/pizzasSlice';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { selectFilter, setFilters } from '../redux/slices/filterSlice';
+import PizzaBlock from './../components/PizzaBlock/PizzaBlock';
 
 const Home = () => {
   const dispatch = useDispatch();
