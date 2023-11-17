@@ -1,4 +1,4 @@
-Reference to visit website - https://max1k1.github.io/react-pizza-website/
+Link to the website - https://max1k1.github.io/react-pizza-website/
 
 
 Preview: 
